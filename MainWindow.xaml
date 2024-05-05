@@ -1,41 +1,222 @@
-﻿<Window x:Class="WpfApp1.MainWindow"
+﻿<Window x:Class="StickyNotes.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:StickyNotes"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="600" Width="400" Padding="0,-4,0,0" UseLayoutRounding="True">
+        Title="StickyNotes" Height="600" Width="400" Padding="0,-4,0,0" UseLayoutRounding="True">
+    <Window.Resources>
+        <Style TargetType="{x:Type ListBox}" x:Key="AEmptyListBoxStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border Name="Border" Background="{TemplateBinding Background}" CornerRadius="5"
+BorderThickness="0"
+BorderBrush="Black">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style TargetType="{x:Type TextBox}" x:Key="AEmptyTextBoxStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Name="Border" Background="{TemplateBinding Background}" CornerRadius="5"
+    BorderThickness="0"
+    BorderBrush="Black">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                            </Trigger>
+                            <Trigger Property="IsInactiveSelectionHighlightEnabled" Value="True">
+                                <Setter Property="Background" Value="DarkOrange"/>
+                                <Setter Property="Foreground" Value="black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="AEmptyStyle">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="1"
+                    Background="#FFFFFF"
+                    BorderBrush="#FFFFFF">
+                            <ContentPresenter Margin="2" 
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" 
+                                 RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="#FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="#FFFFFF" />
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="#FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="AButtonStyle">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="0"
+                    Background="#FFFFFF"
+                    BorderBrush="#FFFFFF">
+                            <ContentPresenter Margin="2" 
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" 
+                                 RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="#FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="#dcdcdc" />
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="#FFFFFF" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="ASearchButtonStyle">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="0"
+             Background="#FFFFFF"
+             BorderBrush="#FFFFFF">
+                            <ContentPresenter Margin="2" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center" 
+                          RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                   Property="Background" Value="#DEDEDE" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                   Property="Background" Value="#dcdcdc" />
+                                <Setter TargetName="Border" 
+                   Property="BorderBrush" Value="#FFFFFF" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"></WindowChrome>
     </WindowChrome.WindowChrome>
     <Border BorderBrush="#FF000000" BorderThickness="1" CornerRadius="8" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="35"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="35"/>
+                <ColumnDefinition Width="35"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" 
-            HorizontalAlignment="Right">
-                <Button Grid.Column="1" x:Name="buttonSettings" Width="50" Content="⚙️" BorderBrush="{x:Null}" Background="{x:Null}" FontSize="18"/>
+            <StackPanel Grid.Column="2" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource AButtonStyle}" 
+                        Grid.Column="1" 
+                        x:Name="buttonSettings" 
+                        Width="35" 
+                        Height="35"
+                        Content="⚙️" 
+                        BorderBrush="{x:Null}" 
+                        Background="{x:Null}" 
+                        FontSize="18" 
+                        />
             </StackPanel>
-            <StackPanel Grid.Column="2" Orientation="Horizontal" 
-                    HorizontalAlignment="Right">
-                <Button Grid.ColumnSpan="2" x:Name="buttonQuit" Width="50" FontSize="18" Content="❌" Background="{x:Null}" BorderBrush="{x:Null}" Click="buttonSettings_Click"/>
+
+            <StackPanel Grid.Column="3" 
+                        Orientation="Horizontal" 
+                        HorizontalAlignment="Right">
+                <Button Style="{StaticResource AButtonStyle}" 
+                    Grid.ColumnSpan="2" x:Name="buttonQuit" 
+                    Width="35" 
+                    Height="35"
+                    FontSize="18" 
+                    Content="❌" 
+                    Background="{x:Null}" 
+                    BorderBrush="{x:Null}" 
+                    Click="buttonQuit_Click" />
             </StackPanel>
-            <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="1"
+
+            <Button Style="{StaticResource AEmptyStyle}" 
+                    x:Name="Button_Move" 
+                    Grid.Column="1" 
+                    PreviewMouseDown="Window_Main_MouseDown" 
+                    BorderBrush="{x:Null}" 
+                    Focusable="False" 
+                    Background="#00DDDDDD">
+                <Button.Foreground>
+                    <SolidColorBrush Color="White"/>
+                </Button.Foreground>
+            </Button>
+
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Left">
+
+                <Button Style="{StaticResource AButtonStyle}" 
+                         x:Name="buttonAdd" 
+                         Width="35" 
+                         Content="➕" 
+                         FontSize="18" 
+                         Height="39"
+                         Background="{x:Null}" 
+                         BorderBrush="{x:Null}" 
+                         Click="buttonAdd_Click" />
+            </StackPanel>
+
+            <StackPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="1"
                     Orientation="Horizontal" 
                     HorizontalAlignment="Stretch">
-                <Label HorizontalAlignment="Stretch" FontSize="20" Content="StickyNotes&#xD;&#xA;" FontWeight="Bold" RenderTransformOrigin="0.5,0.5" Margin="10,0,0,0">
+                <Label FontSize="18" Content="StickyNotes&#xA;" FontWeight="Bold" RenderTransformOrigin="0.5,0.5">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -46,34 +227,38 @@
                     </Label.RenderTransform>
                 </Label>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" 
-                    HorizontalAlignment="Left">
 
-                <Button  x:Name="buttonAdd" Width="50" Content="➕" FontSize="18" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <StackPanel Grid.ColumnSpan="3" Grid.Row="2">
+                <TextBox Style="{StaticResource AEmptyTextBoxStyle}" TextWrapping="Wrap" Text="Search..." HorizontalAlignment="Stretch" Height="36" Background="{x:Null}" BorderBrush="{x:Null}" Margin="15,-1,-1,0" FontFamily="Sans Serif Collection" OpacityMask="Black" Panel.ZIndex="8" FontSize="14"/>
             </StackPanel>
-            <StackPanel Grid.ColumnSpan="2" Grid.Row="2">
-                <TextBox TextWrapping="Wrap" Text="Search..." FontSize="18" HorizontalAlignment="Stretch" Height="36" Background="#FFDFE0E2" BorderBrush="{x:Null}" Margin="15,-1,-1,0" FontFamily="Sans Serif Collection"/>
+
+            <StackPanel Grid.Column="3" Grid.Row="2">
+                <Button Style="{StaticResource ASearchButtonStyle}" Content="🔍" BorderBrush="{x:Null}" HorizontalAlignment="Stretch" Background="{x:Null}" FontSize="20" Height="34" Width="31"/>
             </StackPanel>
-            <StackPanel Grid.Column="2" Grid.Row="2">
-                <Button Content="🔍" BorderBrush="#FFDFE0E2" HorizontalAlignment="Stretch" Background="#FFDFE0E2" FontSize="20" Height="34" Margin="0,0,15,0"/>
-            </StackPanel>
-            <StackPanel Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="3" Margin="15,15,15,0">
-                <Grid Width="368">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <StackPanel Background="#33000000">
-                        <Menu Grid.Column="1" HorizontalAlignment="Right">
-                            <MenuItem Header="Apr, 19" VerticalAlignment="Top" HorizontalAlignment="Right" Background="#00000000" BorderBrush="#03000000"/>
-                        </Menu>
-                        <Label Grid.Column="2">
-                            <Label.Content>
-                                <AccessText TextWrapping="Wrap" Text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."/>
-                            </Label.Content>
-                        </Label>
-                    </StackPanel>
-                </Grid>
+
+            <StackPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="4" Margin="15,15,15,15">
+                <ListBox HorizontalContentAlignment="Stretch" Width="Auto" MaxWidth="600" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="data" Height="Auto" SelectionChanged="DataContainer_SelectionChanged" BorderBrush="{x:Null}" HorizontalAlignment="Left">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel>
+                                    <Menu Grid.Column="1" HorizontalAlignment="Right">
+                                        <MenuItem Header="Apr, 19" VerticalAlignment="Top" Background="#00000000" BorderBrush="#03000000"/>
+                                    </Menu>
+                                    <Label HorizontalAlignment="Stretch" Width="Auto" MaxWidth="600" Grid.Column="2" >
+                                        <Label.Content>
+                                            <AccessText HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding Path=Content}"/>
+                                        </Label.Content>
+                                    </Label>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </Grid>
     </Border>
