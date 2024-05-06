@@ -26,12 +26,7 @@ namespace StickyNotes
         public SelectUserWindow()
         {
             InitializeComponent();
-            this.UserList.ItemsSource = Users;
-            foreach(var item in from user in _repository.GetAll()
-                                select user)
-            {
-                Users.Add(item);
-            };
+            UpdateUserList();
         }
 
         private void Window_Main_MouseDown(object sender, MouseButtonEventArgs e)
@@ -41,6 +36,17 @@ namespace StickyNotes
                 this.DragMove();
                 e.Handled = true;
             }
+        }
+
+        public void UserChanged()
+        {
+            UpdateUserList();
+        }
+
+        private void UpdateUserList()
+        {
+            Users = (from user in _repository.GetAll() select user).ToList();
+            this.UserList.ItemsSource = Users;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -54,6 +60,14 @@ namespace StickyNotes
             UserDtoDetails user = Grid.DataContext as UserDtoDetails;
             MainWindow mainWindow = new MainWindow(user.User_Id);
             mainWindow.Show();
+        }
+
+        private void MouseDown_Delete(object sender, MouseButtonEventArgs e)
+        {
+            MenuItem menuItem = sender as MenuItem;
+            UserDtoDetails user = menuItem.DataContext as UserDtoDetails;
+            _repository.Delete(user);
+            UserChanged();
         }
     }
 }

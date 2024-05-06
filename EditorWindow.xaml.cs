@@ -25,7 +25,8 @@ namespace StickyNotes
         private IGenericRepository<NoteDto>? _repository = new GenericRepository<NoteDto>();
         private NoteDto? _note;
         private MainWindow parent;
-        
+        RichTextBox box;
+
         public EditorWindow()
         {
             InitializeComponent();
@@ -36,6 +37,7 @@ namespace StickyNotes
             InitializeComponent();
             this.parent = mainWindow;
             this._note = _repository.GetById(NoteId);
+            box = this.Content;
 
             setNoteContent(_note.Content);
         }
@@ -91,6 +93,54 @@ namespace StickyNotes
 
             NoteDetailDto note = parent.AddNote();
             new EditorWindow(parent, note.Note_Id).Show();
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            if(box.Selection.GetPropertyValue(FontWeightProperty).Equals(FontWeights.Bold))
+            {
+                box.Selection.ApplyPropertyValue(FontWeightProperty, FontWeights.Normal);
+            }
+            else {
+                box.Selection.ApplyPropertyValue(FontWeightProperty, FontWeights.Bold);
+            }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+
+            if(box.Selection.GetPropertyValue(FontStyleProperty).Equals(FontStyles.Italic))
+            {
+                box.Selection.ApplyPropertyValue(FontStyleProperty, FontStyles.Normal);
+            }
+            else
+            {
+                box.Selection.ApplyPropertyValue(FontStyleProperty, FontStyles.Italic);
+            }
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if(box.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Underline))
+            {
+                box.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, new TextDecorationCollection());
+            }
+            else
+            {
+                box.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+            }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            if(box.Selection.GetPropertyValue(Inline.TextDecorationsProperty).Equals(TextDecorations.Strikethrough))
+            {
+                box.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, new TextDecorationCollection());
+            }
+            else
+            {
+                box.Selection.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Strikethrough);
+            }
         }
     }
 

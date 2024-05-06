@@ -259,22 +259,33 @@ BorderBrush="Black">
                         Height="Auto"
                         Width="Auto"/>
             </StackPanel>
-            
-           
-            <StackPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="4" Margin="15,15,15,15">
-                <ListBox HorizontalContentAlignment="Stretch" Width="Auto" MaxWidth="600" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="data" Height="Auto" SelectionChanged="DataContainer_SelectionChanged" BorderBrush="{x:Null}" HorizontalAlignment="Left">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Left">
+
+
+            <StackPanel Grid.ColumnSpan="4" 
+                        Grid.Column="0" 
+                        Grid.Row="4" 
+                        Margin="15,15,15,15" 
+                        ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListBox Background="pink" 
+                         HorizontalContentAlignment="Stretch" 
+                         MinWidth="200" 
+                         MaxWidth="600" 
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                         x:Name="data" 
+                         SelectionChanged="DataContainer_SelectionChanged" 
+                         BorderBrush="{x:Null}" >
+                    <ListBox.ItemTemplate >
+                        <DataTemplate >
+                            <Grid >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <StackPanel MouseLeftButtonDown="Open_Note">
                                     <Menu Grid.Column="1" HorizontalAlignment="Right">
-                                        <MenuItem Header="{Binding Path=CreatedDate}" VerticalAlignment="Top" Background="#00000000" BorderBrush="#03000000"/>
+                                        <MenuItem Header="{Binding Path=Last_Modified}" HorizontalAlignment="Right"/>
                                     </Menu>
-                                    <Label HorizontalAlignment="Stretch" Width="Auto" MaxWidth="600" Grid.Column="2" >
+                                    <Label HorizontalAlignment="Stretch" Width="Auto" MaxWidth="600" Grid.Column="1" >
                                         <Label.Content>
                                             <AccessText HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="{Binding Path=Content}"/>
                                         </Label.Content>
