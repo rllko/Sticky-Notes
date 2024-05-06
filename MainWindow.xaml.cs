@@ -18,8 +18,9 @@ namespace StickyNotes
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly GenericRepository<NoteDetailDto> _NoteRepository = new();
+        private readonly GenericRepository<NoteDetailDto> _NoteRepository = new();
         List<NoteDetailDto> notes = [];
+        private int Owner_ID;
         public MainWindow()
         {
             InitializeComponent();
@@ -34,10 +35,22 @@ namespace StickyNotes
 
         public MainWindow(int Owner_ID)
         {
+            this.Owner_ID = Owner_ID;
             InitializeComponent();
-            var notes = (from note in _NoteRepository.GetAll() where note.Owner_Id == Owner_ID select note).ToList();
+            updateTextList();
+        }
 
+        private void updateTextList()
+        {
+            notes = (from note in _NoteRepository.GetAll()
+                                     where note.Owner_Id == Owner_ID
+                                     select note).ToList();
             this.data.ItemsSource = notes;
+        }
+
+        public void ContentChanged()
+        {
+            updateTextList();
         }
 
         private void buttonSettings_Click(object sender, RoutedEventArgs e)
@@ -45,20 +58,35 @@ namespace StickyNotes
 
         }
 
-        public void addNote()
-        {
-
-        }
-
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            EditorWindow objEditorWindow = new();
-            objEditorWindow.Show();
+            NoteDetailDto note = AddNote();
+
+            new EditorWindow(this, note.Note_Id).Show();
+        }
+
+        private NoteDetailDto getLastNote()
+        {
+            return notes.Last();
+        }
+
+        public NoteDetailDto AddNote()
+        {
+            NoteDetailDto note = new();
+            note.Owner_Id = Owner_ID;
+            note.Last_Modified = null;
+            note.Created_Date = DateTime.Now;
+            note.Category = "";
+            note.Content = "";
+            notes.Add(note);
+            _NoteRepository.Add(note);
+            ContentChanged();
+            return getLastNote();
         }
 
         private void buttonQuit_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            this.Close();
         }
 
         private void Dragbar_MouseDown(object sender, MouseButtonEventArgs e)
@@ -92,9 +120,7 @@ namespace StickyNotes
         {
             StackPanel panel = sender as StackPanel;
             NoteDetailDto note = panel.DataContext as NoteDetailDto;
-            new EditorWindow(note.Content, 0).Show();
-
-
+            new EditorWindow(this, note.Note_Id).Show();
         }
     }
 }

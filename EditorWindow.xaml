@@ -110,10 +110,10 @@
 
             <Border Grid.Column="0" >
                 <Button
-                    Content="➕"/>
+                    Content="➕" Click="Button_Click_1"/>
             </Border>
             <Border Grid.Column="2">
-                <Button Content="✔⚠️"/>
+                <Button x:Name="LabelSaveStatus" Content=""/>
             </Border>
             <Border Grid.Column="3">
                 <Button Content="⋯"/>
@@ -123,7 +123,7 @@
             </Border>
         </Grid>
 
-        <RichTextBox x:Name="Content" Grid.Row="1">
+        <RichTextBox x:Name="Content" Grid.Row="1" TextChanged="UpdateNote">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>

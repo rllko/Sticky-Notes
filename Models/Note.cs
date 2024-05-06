@@ -13,19 +13,36 @@ namespace StickyNotes.Models;
 /// to update the ones in the db. 
 /// </remarks>
 [Table("NOTES")]
-internal class NoteDetailDto
+public record NoteDetailDto
 {
+
     [Key]
-    [Column("OWNER_ID")]
-    public int Owner_Id { get; }
     [Column("NOTE_ID")]
-    public long Note_Id { get; }
+    public long Note_Id { get; set; }
+    [Column("OWNER_ID")]
+    public int Owner_Id { get; set; }
     [Column("CREATED_DATE")]
-    public DateTime Created_Date { get; }
+    public DateTime Created_Date { get; set; }
     [Column("LAST_MODIFIED")]
-    public DateTime Last_Modified { get; set; }
+    public DateTime? Last_Modified { get; set; }
     [Column("CONTENT")]
     public string Content { get; set; }
     [Column("CATEGORY")]
     public string Category { get; set; }
+}
+
+[Table("NOTES")]
+public record NoteDto
+{
+    [Key]
+    [Column("NOTE_ID")]
+    public long Note_Id { get; init; }
+    [Column("OWNER_ID")]
+    public long Owner_Id { get; set; }
+    [Column("CONTENT")]
+    public string Content { get; set; }
+    [Column("CATEGORY")]
+    public string Category { get; set; }
+    [Column("LAST_MODIFIED")]
+    public DateTime? Last_Modified { get; set; }
 }

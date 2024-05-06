@@ -11,11 +11,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DapperGenericRepository.Repository
-{
-    internal class GenericRepository<T> : IGenericRepository<T> where T : class
+namespace DapperGenericRepository.Repository;
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        public readonly NpgsqlConnection _connection;
+        private readonly NpgsqlConnection _connection;
 
         readonly string connectionString =  """
                 Host=localhost;
@@ -34,9 +33,9 @@ namespace DapperGenericRepository.Repository
             int rowsAffected = 0;
             try { 
                 string tableName = GetTableName();
-                string columns = GetColumns();
+                string columns = GetColumns(excludeKey: true);
                 string properties = GetPropertyNames(excludeKey: true);
-                string query = $"INSERT INTO {tableName} ({columns}) VALUES {properties}";
+                string query = $"INSERT INTO {tableName} ({columns}) VALUES ({properties})";
 
                 rowsAffected = _connection.Execute(query, entity);
             }catch(Exception){ }
@@ -76,7 +75,7 @@ namespace DapperGenericRepository.Repository
             return result;
         }
 
-        public T? GetById(int id)
+        public T? GetById(long id)
         {
             T result = null;
 
@@ -121,7 +120,10 @@ namespace DapperGenericRepository.Repository
 
                 rowsEffected = _connection.Execute(query.ToString(), entity);
             }
-            catch(Exception ex) { }
+            catch(Exception ex) 
+            {
+                return false;
+            }
 
             return rowsEffected > 0;
         }
@@ -210,4 +212,4 @@ namespace DapperGenericRepository.Repository
             return null;
         }
     }
-}
+

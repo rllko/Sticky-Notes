@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DapperGenericRepository.Repository;
 
-internal interface IGenericRepository<T>
+public interface IGenericRepository<T>
 {
-    public T GetById(int id);
+    public T GetById(long id);
     public IEnumerable<T> GetAll();
     public bool Add(T entity);
     public bool Update(T entity);
