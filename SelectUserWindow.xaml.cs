@@ -27,8 +27,8 @@ namespace StickyNotes
         {
             InitializeComponent();
             this.UserList.ItemsSource = Users;
-            foreach (var item in from user in _repository.GetAll()
-                                 select user)
+            foreach(var item in from user in _repository.GetAll()
+                                select user)
             {
                 Users.Add(item);
             };
@@ -46,6 +46,14 @@ namespace StickyNotes
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void OpenUserNote(object sender, MouseButtonEventArgs e)
+        {
+            Grid Grid = sender as Grid;
+            UserDtoDetails user = Grid.DataContext as UserDtoDetails;
+            MainWindow mainWindow = new MainWindow(user.User_Id);
+            mainWindow.Show();
         }
     }
 }

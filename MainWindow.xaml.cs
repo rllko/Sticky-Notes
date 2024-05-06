@@ -32,6 +32,14 @@ namespace StickyNotes
             this.data.ItemsSource = notes;
         }
 
+        public MainWindow(int Owner_ID)
+        {
+            InitializeComponent();
+            var notes = (from note in _NoteRepository.GetAll() where note.Owner_Id == Owner_ID select note).ToList();
+
+            this.data.ItemsSource = notes;
+        }
+
         private void buttonSettings_Click(object sender, RoutedEventArgs e)
         {
 

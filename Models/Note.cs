@@ -17,13 +17,13 @@ internal class NoteDetailDto
 {
     [Key]
     [Column("OWNER_ID")]
-    public int IdCreator { get; }
+    public int Owner_Id { get; }
     [Column("NOTE_ID")]
-    public long IdNote { get; }
+    public long Note_Id { get; }
     [Column("CREATED_DATE")]
-    public TimeSpan CreatedDate { get; }
+    public DateTime Created_Date { get; }
     [Column("LAST_MODIFIED")]
-    public TimeSpan LastModified { get; set; }
+    public DateTime Last_Modified { get; set; }
     [Column("CONTENT")]
     public string Content { get; set; }
     [Column("CATEGORY")]

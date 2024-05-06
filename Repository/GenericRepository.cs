@@ -78,19 +78,19 @@ namespace DapperGenericRepository.Repository
 
         public T? GetById(int id)
         {
-            IEnumerable<T>? result = null;
+            T result = null;
 
             try
             {
                 string TableName = GetTableName();
                 string keyColumn = GetKeyColumnName();
-                string query = $"SELECT * FROM {TableName} WHERE {keyColumn}";
+                string query = $"SELECT * FROM {TableName} WHERE {keyColumn} = {id}";
 
-                result = _connection.Query<T>(query);
+                result = _connection.QueryFirst<T>(query);
             }
             catch(Exception) { }
 
-            return result.FirstOrDefault();
+            return result;
         }
 
         public bool Update(T entity)

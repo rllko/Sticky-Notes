@@ -19,10 +19,10 @@ namespace StickyNotes.Models;
 internal record UserDtoDetails
 {
     [Key]
-    [Column("ID")]
-    public BigInteger Id { get; init; }
+    [Column("USER_ID")]
+    public int User_Id { get; init; }
     [Column("CREATED_DATE")]
-    public DateTime DateCreated { get; init; }
+    public DateTime Created_Date { get; init; }
     [Column("NAME")]
     public string Name { get; set; }
 }
