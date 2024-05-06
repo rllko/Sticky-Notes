@@ -3,11 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StickyNotes"
         mc:Ignorable="d"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
-        Title="StickyNotes" Height="600" Width="400" Padding="0,-4,0,0" UseLayoutRounding="True">
+        Title="StickyNotes" 
+        Height="600" 
+        Width="400" 
+        UseLayoutRounding="True">
     <Window.Resources>
         <Style TargetType="{x:Type ListBox}" x:Key="AEmptyListBoxStyle">
             <Setter Property="Template">
@@ -34,10 +36,6 @@ BorderBrush="Black">
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                            </Trigger>
-                            <Trigger Property="IsInactiveSelectionHighlightEnabled" Value="True">
-                                <Setter Property="Background" Value="DarkOrange"/>
-                                <Setter Property="Foreground" Value="black"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -141,10 +139,17 @@ BorderBrush="Black">
         </Style>
     </Window.Resources>
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0"></WindowChrome>
+        <WindowChrome 
+            GlassFrameThickness="0" 
+            CornerRadius="0" 
+            CaptionHeight="0">
+        </WindowChrome>
     </WindowChrome.WindowChrome>
-    <Border BorderBrush="#FF000000" BorderThickness="1" CornerRadius="8" UseLayoutRounding="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-
+    <Border BorderBrush="#FF000000" 
+            BorderThickness="1" 
+            CornerRadius="8" 
+            UseLayoutRounding="True" 
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
@@ -166,7 +171,7 @@ BorderBrush="Black">
                         x:Name="buttonSettings" 
                         Width="35" 
                         Height="35"
-                        Content="⚙️" 
+                        Content="⚙" 
                         BorderBrush="{x:Null}" 
                         Background="{x:Null}" 
                         FontSize="18" 
@@ -181,7 +186,7 @@ BorderBrush="Black">
                     Width="35" 
                     Height="35"
                     FontSize="18" 
-                    Content="❌" 
+                    Content="⨉" 
                     Background="{x:Null}" 
                     BorderBrush="{x:Null}" 
                     Click="buttonQuit_Click" />
@@ -193,7 +198,7 @@ BorderBrush="Black">
                     PreviewMouseDown="Window_Main_MouseDown" 
                     BorderBrush="{x:Null}" 
                     Focusable="False" 
-                    Background="#00DDDDDD">
+                    Background="#00DDDDDD" Click="Button_Move_Click">
                 <Button.Foreground>
                     <SolidColorBrush Color="White"/>
                 </Button.Foreground>
@@ -216,7 +221,9 @@ BorderBrush="Black">
             <StackPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="1"
                     Orientation="Horizontal" 
                     HorizontalAlignment="Stretch">
-                <Label FontSize="18" Content="StickyNotes&#xA;" FontWeight="Bold" RenderTransformOrigin="0.5,0.5">
+                <Label FontSize="18" Content="StickyNotes&#xA;" 
+                       FontWeight="Bold" 
+                       RenderTransformOrigin="0.5,0.5">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -229,13 +236,31 @@ BorderBrush="Black">
             </StackPanel>
 
             <StackPanel Grid.ColumnSpan="3" Grid.Row="2">
-                <TextBox Style="{StaticResource AEmptyTextBoxStyle}" TextWrapping="Wrap" Text="Search..." HorizontalAlignment="Stretch" Height="36" Background="{x:Null}" BorderBrush="{x:Null}" Margin="15,-1,-1,0" FontFamily="Sans Serif Collection" OpacityMask="Black" Panel.ZIndex="8" FontSize="14"/>
+                <TextBox Style="{StaticResource AEmptyTextBoxStyle}" 
+                         TextWrapping="Wrap" Text="Search..." 
+                         HorizontalAlignment="Stretch" 
+                         Height="36" 
+                         Background="{x:Null}" 
+                         BorderBrush="{x:Null}" 
+                         Margin="15,-1,-1,0" 
+                         FontFamily="Sans Serif Collection" 
+                         OpacityMask="Black" 
+                         Panel.ZIndex="8" 
+                         FontSize="14"/>
             </StackPanel>
 
             <StackPanel Grid.Column="3" Grid.Row="2">
-                <Button Style="{StaticResource ASearchButtonStyle}" Content="🔍" BorderBrush="{x:Null}" HorizontalAlignment="Stretch" Background="{x:Null}" FontSize="20" Height="34" Width="31"/>
+                <Button Style="{StaticResource ASearchButtonStyle}" 
+                        Content="⌕" 
+                        BorderBrush="{x:Null}" 
+                        HorizontalAlignment="Stretch" 
+                        Background="{x:Null}" 
+                        FontSize="20" 
+                        Height="Auto"
+                        Width="Auto"/>
             </StackPanel>
-
+            
+           
             <StackPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="4" Margin="15,15,15,15">
                 <ListBox HorizontalContentAlignment="Stretch" Width="Auto" MaxWidth="600" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="data" Height="Auto" SelectionChanged="DataContainer_SelectionChanged" BorderBrush="{x:Null}" HorizontalAlignment="Left">
                     <ListBox.ItemTemplate>
@@ -245,9 +270,9 @@ BorderBrush="Black">
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <StackPanel>
+                                <StackPanel MouseLeftButtonDown="Open_Note">
                                     <Menu Grid.Column="1" HorizontalAlignment="Right">
-                                        <MenuItem Header="Apr, 19" VerticalAlignment="Top" Background="#00000000" BorderBrush="#03000000"/>
+                                        <MenuItem Header="{Binding Path=CreatedDate}" VerticalAlignment="Top" Background="#00000000" BorderBrush="#03000000"/>
                                     </Menu>
                                     <Label HorizontalAlignment="Stretch" Width="Auto" MaxWidth="600" Grid.Column="2" >
                                         <Label.Content>

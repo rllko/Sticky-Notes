@@ -17,23 +17,21 @@ using System.Windows.Shapes;
 namespace StickyNotes
 {
     /// <summary>
-    /// Interaction logic for EditorWindow.xaml
+    /// Interaction logic for SelectUserWindow.xaml
     /// </summary>
-    public partial class EditorWindow : Window
+    public partial class SelectUserWindow : Window
     {
-        readonly int NoteId;
-        public EditorWindow()
+        GenericRepository<UserDtoDetails> _repository = new();
+        List<UserDtoDetails> Users = [];
+        public SelectUserWindow()
         {
             InitializeComponent();
-        }
-
-        public EditorWindow(string Text, int NoteId)
-        {
-            InitializeComponent();
-            this.NoteId = NoteId;
-            RichTextBox box = this.Content;
-            box.Document.Blocks.Clear();
-            box.Document.Blocks.Add(new Paragraph(new Run(Text)));
+            this.UserList.ItemsSource = Users;
+            foreach (var item in from user in _repository.GetAll()
+                                 select user)
+            {
+                Users.Add(item);
+            };
         }
 
         private void Window_Main_MouseDown(object sender, MouseButtonEventArgs e)
@@ -50,6 +48,4 @@ namespace StickyNotes
             this.Close();
         }
     }
-
-
 }

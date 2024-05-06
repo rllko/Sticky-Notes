@@ -9,13 +9,167 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Padding="0,-4,0,0" UseLayoutRounding="True">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="AEmptyStyle">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="1"
+                   Background="#FFFFFF"
+                   BorderBrush="#FFFFFF">
+                            <ContentPresenter Margin="2" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" 
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                         Property="Background" Value="#FFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                         Property="Background" Value="#FFFFFF" />
+                                <Setter TargetName="Border" 
+                         Property="BorderBrush" Value="#FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="0"
+                   Background="#FFFFFF"
+                   BorderBrush="#FFFFFF">
+                            <ContentPresenter Margin="2" 
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" 
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
 
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                         Property="Background" Value="#dcd" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                         Property="Background" Value="#dcdcdc" />
+                                <Setter TargetName="Border" 
+                         Property="BorderBrush" Value="#FFFFFF" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
         </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.Resources >
+                <Style TargetType="Border" >
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </Grid.Resources >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                    Style="{StaticResource AEmptyStyle}" 
+                    x:Name="Button_Move" 
+                    Grid.Column="1" 
+                    PreviewMouseDown="Window_Main_MouseDown" 
+                    BorderBrush="{x:Null}" 
+                    Focusable="False" 
+                    Background="#00DDDDDD">
+
+                <Button.Foreground>
+                    <SolidColorBrush Color="White"/>
+                </Button.Foreground>
+            </Button>
+
+            <Border Grid.Column="0" >
+                <Button
+                    Content="➕"/>
+            </Border>
+            <Border Grid.Column="2">
+                <Button Content="✔⚠️"/>
+            </Border>
+            <Border Grid.Column="3">
+                <Button Content="⋯"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="4">
+                <Button Content="⨉" Click="Button_Click"/>
+            </Border>
+        </Grid>
+
+        <RichTextBox x:Name="Content" Grid.Row="1">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="RichTextBox"/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+
+
+        <Grid Grid.Row="2">
+            
+            <Grid.Resources >
+                <Style TargetType="Border" >
+                    <Setter Property="Padding" Value="5,0,5,0" />
+                    <Setter Property="Height" Value="35" />
+                </Style>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="45"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Row="0" Grid.Column="0">
+                <Button Content="B" FontWeight="Bold"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="1">
+                <Button Content="𝐼"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="2">
+                <Button Content="U̲"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="3">
+                <Button Content="a̵b̵"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="4">
+                <Button Content="🏞️"/>
+            </Border>
+            <Border Grid.Row="0" Grid.Column="5">
+                <Button Content="☰"/>
+            </Border>
+        </Grid>
 
     </Grid>
 </Window>

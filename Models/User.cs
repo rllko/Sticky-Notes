@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +20,9 @@ internal record UserDtoDetails
 {
     [Key]
     [Column("ID")]
-    public int Id { get; }
+    public BigInteger Id { get; init; }
     [Column("CREATED_DATE")]
-    public DateTime DateCreated { get; }
+    public DateTime DateCreated { get; init; }
     [Column("NAME")]
     public string Name { get; set; }
 }

@@ -41,7 +41,7 @@ namespace DapperGenericRepository.Repository
                 rowsAffected = _connection.Execute(query, entity);
             }catch(Exception){ }
 
-            return rowsAffected > 0 ? true : false;
+            return rowsAffected > 0;
         }
 
         public bool Delete(T entity)
@@ -51,7 +51,7 @@ namespace DapperGenericRepository.Repository
             {
                 string tableName = GetTableName();
                 string keyColumn = GetKeyColumnName();
-                string keyProperty = GetKeyPropertyName();
+                string? keyProperty = GetKeyPropertyName();
 
                 string query = $"DELETE FROM {tableName} WHERE {keyColumn} = @{keyProperty}";
 
@@ -59,7 +59,7 @@ namespace DapperGenericRepository.Repository
             }
             catch(Exception) { }
 
-            return rowsAffected > 0 ? true : false;
+            return rowsAffected > 0;
         }
 
         public virtual IEnumerable<T> GetAll()
@@ -95,7 +95,35 @@ namespace DapperGenericRepository.Repository
 
         public bool Update(T entity)
         {
-            throw new NotImplementedException();
+            int rowsEffected = 0;
+            try
+            {
+                string tableName   = GetTableName();
+                string keyColumn   = GetKeyColumnName();
+                string keyProperty = GetKeyPropertyName();
+
+                StringBuilder query = new StringBuilder();
+                query.Append($"UPDATE {tableName} SET ");
+
+                foreach(var property in GetProperties(true))
+                {
+                    var columnAttr = property.GetCustomAttribute<ColumnAttribute>();
+
+                    string propertyName = property.Name;
+                    string columnName   = columnAttr.Name;
+
+                    query.Append($"{columnName} = @{propertyName},");
+                }
+
+                query.Remove(query.Length - 1, 1);
+
+                query.Append($" WHERE {keyColumn} = @{keyProperty}");
+
+                rowsEffected = _connection.Execute(query.ToString(), entity);
+            }
+            catch(Exception ex) { }
+
+            return rowsEffected > 0;
         }
 
         protected string GetPropertyNames(bool excludeKey = false)

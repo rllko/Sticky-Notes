@@ -18,14 +18,17 @@ namespace StickyNotes
     /// </summary>
     public partial class MainWindow : Window
     {
-        GenericRepository<NoteDetailDto> NoteRepository = new();
-        List<NoteDetailDto> notes = new();
+        readonly GenericRepository<NoteDetailDto> _NoteRepository = new();
+        List<NoteDetailDto> notes = [];
         public MainWindow()
         {
             InitializeComponent();
-            NoteDetailDto note = new NoteDetailDto();
-            note.Content = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book";
+            NoteDetailDto note = new()
+            {
+                Content = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
+            };
             notes.Add(note);
+            
             this.data.ItemsSource = notes;
         }
 
@@ -34,14 +37,15 @@ namespace StickyNotes
 
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void addNote()
         {
 
         }
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-
+            EditorWindow objEditorWindow = new();
+            objEditorWindow.Show();
         }
 
         private void buttonQuit_Click(object sender, RoutedEventArgs e)
@@ -69,6 +73,20 @@ namespace StickyNotes
 
         private void DataContainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+        }
+
+        private void Button_Move_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Open_Note(object sender, MouseButtonEventArgs e)
+        {
+            StackPanel panel = sender as StackPanel;
+            NoteDetailDto note = panel.DataContext as NoteDetailDto;
+            new EditorWindow(note.Content, 0).Show();
+
+
         }
     }
 }
