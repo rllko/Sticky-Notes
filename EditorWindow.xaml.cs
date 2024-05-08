@@ -2,14 +2,17 @@
 using StickyNotes.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -39,15 +42,27 @@ namespace StickyNotes
             this._note = _repository.GetById(NoteId);
             box = this.Content;
 
-            setNoteContent(_note.Content);
+            if(_note != null) { 
+                setNoteContent(_note.Content);
+            }
         }
 
         private void setNoteContent(string content)
         {
-            RichTextBox box = this.Content;
-            box.Document.Blocks.Clear();
-            box.Document.Blocks.Add(new Paragraph(new Run(content)));
+            if(string.IsNullOrWhiteSpace(content))
+            {
+                // Handle empty content
+                box.Document = new FlowDocument();
+                return;
+            }
+
+
+            using(MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(content)))
+            {
+                box.Document = XamlReader.Load(stream) as FlowDocument;
+            }
         }
+
 
         private void Window_Main_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -74,7 +89,7 @@ namespace StickyNotes
 
             statusLabel.Content = "...";
 
-            _note.Content = StringFromRichTextBox(this.Content);
+            _note.Content = GetNoteContent();
             _note.Last_Modified = DateTime.Now;
 
             statusLabel.Content = _repository.Update(_note) ? "✔" : "⚠️";
@@ -82,11 +97,26 @@ namespace StickyNotes
         }
         string StringFromRichTextBox(RichTextBox rtb)
         {
-            TextRange textRange = new TextRange(
-                        rtb.Document.ContentStart,
-                        rtb.Document.ContentEnd);
-            return textRange.Text;
+            string content;
+            using(MemoryStream stream = new MemoryStream())
+            {
+                XamlWriter.Save(box.Document, stream);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+            return content;
         }
+
+        private string GetNoteContent()
+        {
+            string content;
+            using(MemoryStream stream = new MemoryStream())
+            {
+                XamlWriter.Save(box.Document, stream);
+                content = Encoding.UTF8.GetString(stream.ToArray());
+            }
+            return content;
+        }
+
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {

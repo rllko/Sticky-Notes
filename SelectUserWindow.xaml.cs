@@ -62,7 +62,7 @@ namespace StickyNotes
             mainWindow.Show();
         }
 
-        private void MouseDown_Delete(object sender, MouseButtonEventArgs e)
+        private void MouseDown_Delete(object sender, RoutedEventArgs e)
         {
             MenuItem menuItem = sender as MenuItem;
             UserDtoDetails user = menuItem.DataContext as UserDtoDetails;

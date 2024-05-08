@@ -189,7 +189,7 @@
                                 <DropShadowBitmapEffect />
                             </Menu.BitmapEffect>
                             <MenuItem Header="⋯" Height="30" Width="30">
-                                <MenuItem Header="Delete" MouseLeftButtonDown="MouseDown_Delete" MouseDown="MouseDown_Delete" />
+                                <MenuItem Header="Delete" Click="MouseDown_Delete" />
                                 <MenuItem Header="Details" />
                                 <MenuItem Header="Update Name" />
                             </MenuItem>

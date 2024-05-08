@@ -1,11 +1,13 @@
 ﻿using DapperGenericRepository.Repository;
 using StickyNotes.Models;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -79,11 +81,15 @@ namespace StickyNotes
             note.Created_Date = DateTime.Now;
             note.Category = "";
             note.Content = "";
+
+            // Set the content of the newly created note in the editor
             notes.Add(note);
             _NoteRepository.Add(note);
             ContentChanged();
+
             return getLastNote();
         }
+
 
         private void buttonQuit_Click(object sender, RoutedEventArgs e)
         {
@@ -122,6 +128,12 @@ namespace StickyNotes
             StackPanel panel = sender as StackPanel;
             NoteDetailDto note = panel.DataContext as NoteDetailDto;
             new EditorWindow(this, note.Note_Id).Show();
+        }
+
+        private void MouseEnter(object sender, MouseEventArgs e)
+        {
+            MenuItem menuitem = e.Source as MenuItem;
+            menuitem.Visibility = Visibility.Hidden;
         }
     }
 }

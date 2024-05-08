@@ -273,7 +273,7 @@ BorderBrush="Black">
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                          x:Name="data" 
                          SelectionChanged="DataContainer_SelectionChanged" 
-                         BorderBrush="{x:Null}" >
+                         BorderBrush="{x:Null}" Margin="0,0,0,10" >
                     <ListBox.ItemTemplate >
                         <DataTemplate >
                             <Grid >
@@ -281,9 +281,10 @@ BorderBrush="Black">
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <StackPanel MouseLeftButtonDown="Open_Note">
+                                <StackPanel MaxHeight="300" MouseLeftButtonDown="Open_Note">
+                                    
                                     <Menu Grid.Column="1" HorizontalAlignment="Right">
-                                        <MenuItem Header="{Binding Path=Last_Modified}" HorizontalAlignment="Right"/>
+                                        <MenuItem x:Name="LastModified" Header="{Binding Path=Last_Modified}" HorizontalAlignment="Right"/>
                                     </Menu>
                                     <Label HorizontalAlignment="Stretch" Width="Auto" MaxWidth="600" Grid.Column="1" >
                                         <Label.Content>
