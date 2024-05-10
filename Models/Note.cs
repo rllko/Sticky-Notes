@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StickyNotes.Models;
@@ -13,7 +12,7 @@ namespace StickyNotes.Models;
 /// to update the ones in the db. 
 /// </remarks>
 [Table("NOTES")]
-public record NoteDetailDto
+public class NoteDetailDto
 {
 
     [Key]
@@ -32,7 +31,7 @@ public record NoteDetailDto
 }
 
 [Table("NOTES")]
-public record NoteDto
+public class NoteDto
 {
     [Key]
     [Column("NOTE_ID")]

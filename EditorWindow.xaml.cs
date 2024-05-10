@@ -1,22 +1,12 @@
 ﻿using DapperGenericRepository.Repository;
 using StickyNotes.Models;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace StickyNotes
 {
@@ -25,24 +15,20 @@ namespace StickyNotes
     /// </summary>
     public partial class EditorWindow : Window
     {
-        private IGenericRepository<NoteDto>? _repository = new GenericRepository<NoteDto>();
+        private IGenericRepository<NoteDto> _repository = new GenericRepository<NoteDto>();
         private NoteDto? _note;
         private MainWindow parent;
         RichTextBox box;
 
-        public EditorWindow()
-        {
-            InitializeComponent();
-        }
-
-        public EditorWindow(MainWindow mainWindow,long NoteId)
+        public EditorWindow(MainWindow mainWindow, long NoteId)
         {
             InitializeComponent();
             this.parent = mainWindow;
             this._note = _repository.GetById(NoteId);
             box = this.Content;
 
-            if(_note != null) { 
+            if(_note != null)
+            {
                 setNoteContent(_note.Content);
             }
         }
@@ -82,9 +68,10 @@ namespace StickyNotes
         {
             var statusLabel = this.LabelSaveStatus;
 
-            if(this._note == null) {
+            if(this._note == null)
+            {
                 statusLabel.Content = "";
-                return;            
+                return;
             }
 
             statusLabel.Content = "...";
@@ -93,6 +80,25 @@ namespace StickyNotes
             _note.Last_Modified = DateTime.Now;
 
             statusLabel.Content = _repository.Update(_note) ? "✔" : "⚠️";
+            parent.ContentChanged();
+        }
+
+        private async void UpdateNoteAsync(object sender, TextChangedEventArgs e)
+        {
+            var statusLabel = this.LabelSaveStatus;
+
+            if(this._note == null)
+            {
+                statusLabel.Content = "";
+                return;
+            }
+
+            statusLabel.Content = "...";
+
+            _note.Content = GetNoteContent();
+            _note.Last_Modified = DateTime.Now;
+
+            statusLabel.Content = await _repository.UpdateAsync(_note) ? "✔" : "⚠️";
             parent.ContentChanged();
         }
         string StringFromRichTextBox(RichTextBox rtb)
@@ -118,10 +124,10 @@ namespace StickyNotes
         }
 
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
-            NoteDetailDto note = parent.AddNote();
+            NoteDetailDto note = await parent.AddNote();
             new EditorWindow(parent, note.Note_Id).Show();
         }
 
@@ -131,7 +137,8 @@ namespace StickyNotes
             {
                 box.Selection.ApplyPropertyValue(FontWeightProperty, FontWeights.Normal);
             }
-            else {
+            else
+            {
                 box.Selection.ApplyPropertyValue(FontWeightProperty, FontWeights.Bold);
             }
         }

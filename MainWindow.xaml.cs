@@ -1,17 +1,8 @@
 ﻿using DapperGenericRepository.Repository;
 using StickyNotes.Models;
-using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace StickyNotes
 {
@@ -31,7 +22,7 @@ namespace StickyNotes
                 Content = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"
             };
             notes.Add(note);
-            
+
             this.data.ItemsSource = notes;
         }
 
@@ -45,9 +36,9 @@ namespace StickyNotes
         private void updateTextList()
         {
             notes = (from note in _NoteRepository.GetAll()
-                                     where note.Owner_Id == Owner_ID 
-                                     orderby note.Last_Modified descending
-                                     select note).ToList();
+                     where note.Owner_Id == Owner_ID
+                     orderby note.Last_Modified descending
+                     select note).ToList();
             this.data.ItemsSource = notes;
         }
 
@@ -61,9 +52,9 @@ namespace StickyNotes
 
         }
 
-        private void buttonAdd_Click(object sender, RoutedEventArgs e)
+        private async void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
-            NoteDetailDto note = AddNote();
+            var note = await AddNote();
 
             new EditorWindow(this, note.Note_Id).Show();
         }
@@ -73,7 +64,7 @@ namespace StickyNotes
             return notes.Last();
         }
 
-        public NoteDetailDto AddNote()
+        public async Task<NoteDetailDto> AddNote()
         {
             NoteDetailDto note = new();
             note.Owner_Id = Owner_ID;
@@ -84,7 +75,7 @@ namespace StickyNotes
 
             // Set the content of the newly created note in the editor
             notes.Add(note);
-            _NoteRepository.Add(note);
+            await _NoteRepository.AddAsync(note);
             ContentChanged();
 
             return getLastNote();
