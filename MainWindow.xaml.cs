@@ -35,11 +35,14 @@ namespace StickyNotes
 
         private void updateTextList()
         {
-            notes = (from note in _NoteRepository.GetAll()
-                     where note.Owner_Id == Owner_ID
-                     orderby note.Last_Modified descending
-                     select note).ToList();
-            this.data.ItemsSource = notes;
+            Dispatcher.Invoke(() =>
+            {
+                notes = (from note in _NoteRepository.GetAll()
+                         where note.Owner_Id == Owner_ID
+                         orderby note.Last_Modified descending
+                         select note).ToList();
+                this.data.ItemsSource = notes;
+            });
         }
 
         public void ContentChanged()

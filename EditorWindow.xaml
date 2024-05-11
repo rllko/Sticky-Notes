@@ -123,7 +123,7 @@
             </Border>
         </Grid>
 
-        <RichTextBox x:Name="Content" Grid.Row="1" TextChanged="UpdateNote">
+        <RichTextBox x:Name="Content" Grid.Row="1" TextChanged="UpdateNoteAsync">
             <FlowDocument>
                 <Paragraph>
                     <Run Text="RichTextBox"/>

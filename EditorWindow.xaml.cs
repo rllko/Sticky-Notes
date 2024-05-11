@@ -91,17 +91,19 @@ namespace StickyNotes
                 statusLabel.Content = "";
                 return;
             }
+            await Dispatcher.InvokeAsync(async () =>
+            {
+                _note.Content = GetNoteContent();
 
-            _note.Content = GetNoteContent();
-            _note.Last_Modified = DateTime.Now;
+                var updateTask = _repository.UpdateAsync(_note);
 
-            var updateTask = _repository.UpdateAsync(_note);
+                statusLabel.Content = "...";
+                await updateTask;
 
-            statusLabel.Content = "...";
-            await updateTask;
+                statusLabel.Content = updateTask.Result ? "✔" : "⚠️";
+                parent.ContentChanged();
 
-            statusLabel.Content = updateTask.Result ? "✔" : "⚠️";
-            parent.ContentChanged();
+            });
         }
         string StringFromRichTextBox(RichTextBox rtb)
         {
@@ -117,6 +119,7 @@ namespace StickyNotes
         private string GetNoteContent()
         {
             string content;
+
             using(MemoryStream stream = new MemoryStream())
             {
                 XamlWriter.Save(box.Document, stream);
@@ -124,7 +127,6 @@ namespace StickyNotes
             }
             return content;
         }
-
 
         private async void AddNote_Click(object sender, RoutedEventArgs e)
         {
