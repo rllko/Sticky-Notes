@@ -74,8 +74,16 @@ namespace StickyNotes
             note.Content = "";
 
             // Set the content of the newly created note in the editor
+
+            var addAsyncTask = _NoteRepository.AddAsync(note);
+            await addAsyncTask;
+
+            if(addAsyncTask.Result == false)
+            {
+                throw new Exception("Error while adding note");
+            }
+
             notes.Add(note);
-            await _NoteRepository.AddAsync(note);
             ContentChanged();
 
             return getLastNote();

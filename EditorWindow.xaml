@@ -109,8 +109,8 @@
             </Button>
 
             <Border Grid.Column="0" >
-                <Button
-                    Content="➕" Click="Button_Click_1"/>
+                <Button x:Name="AddNote"
+                    Content="➕" Click="AddNote_Click"/>
             </Border>
             <Border Grid.Column="2">
                 <Button x:Name="LabelSaveStatus" Content=""/>

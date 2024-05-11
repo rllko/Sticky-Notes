@@ -49,7 +49,6 @@ namespace StickyNotes
             }
         }
 
-
         private void Window_Main_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(e.ChangedButton == System.Windows.Input.MouseButton.Left)
@@ -93,12 +92,15 @@ namespace StickyNotes
                 return;
             }
 
-            statusLabel.Content = "...";
-
             _note.Content = GetNoteContent();
             _note.Last_Modified = DateTime.Now;
 
-            statusLabel.Content = await _repository.UpdateAsync(_note) ? "✔" : "⚠️";
+            var updateTask = _repository.UpdateAsync(_note);
+
+            statusLabel.Content = "...";
+            await updateTask;
+
+            statusLabel.Content = updateTask.Result ? "✔" : "⚠️";
             parent.ContentChanged();
         }
         string StringFromRichTextBox(RichTextBox rtb)
@@ -124,11 +126,18 @@ namespace StickyNotes
         }
 
 
-        private async void Button_Click_1(object sender, RoutedEventArgs e)
+        private async void AddNote_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                NoteDetailDto note = await parent.AddNote();
 
-            NoteDetailDto note = await parent.AddNote();
-            new EditorWindow(parent, note.Note_Id).Show();
+                new EditorWindow(parent, note.Note_Id).Show();
+            }
+            catch(Exception)
+            {
+                this.LabelSaveStatus.Content = "⚠️";
+            }
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)

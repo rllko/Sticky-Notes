@@ -236,7 +236,7 @@ BorderBrush="Black">
             </StackPanel>
 
             <StackPanel Grid.ColumnSpan="3" Grid.Row="2">
-                <TextBox Style="{StaticResource AEmptyTextBoxStyle}" 
+                <TextBox x:Name="SearchBar" Style="{StaticResource AEmptyTextBoxStyle}" 
                          TextWrapping="Wrap" Text="Search..." 
                          HorizontalAlignment="Stretch" 
                          Height="36" 
